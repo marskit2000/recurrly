@@ -1,6 +1,6 @@
 import ListHeading from "@/components/ListHeading";
-import SubscriptionCard from "@/components/subscriptionCard";
-import UpcomingSubcriptionCard from "@/components/UpcomingSubcriptionCard";
+import SubscriptionCard from "@/components/SubscriptionCard";
+import UpcomingSubscriptionCard from "@/components/UpcomingSubscriptionCard";
 import {
   HOME_BALANCE,
   HOME_SUBSCRIPTIONS,
@@ -51,7 +51,9 @@ export default function App() {
               <ListHeading title="Upcoming" />
               <FlatList
                 data={UPCOMING_SUBSCRIPTIONS}
-                renderItem={({ item }) => <UpcomingSubcriptionCard {...item} />}
+                renderItem={({ item }) => (
+                  <UpcomingSubscriptionCard {...item} />
+                )}
                 keyExtractor={(item) => item.id}
                 horizontal
                 showsHorizontalScrollIndicator={false}
