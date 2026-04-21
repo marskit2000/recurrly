@@ -166,7 +166,7 @@
   }
 
   .sub-icon {
-    @apply size-16 rounded-lg;
+    @apply size-12 rounded-lg;
   }
 
   .sub-copy {
