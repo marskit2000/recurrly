@@ -1,25 +1,22 @@
+import images from "@/constants/images";
 import { colors } from "@/constants/theme";
+import { formatSubscriptionDateTime } from "@/lib/utils";
 import { useClerk, useUser } from "@clerk/expo";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { styled } from "nativewind";
 import React, { useState } from "react";
 import {
-    ActivityIndicator,
-    Alert,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-    Image,
-    FlatList,
+  ActivityIndicator,
+  Alert,
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
-import {
-  formatCurrency,
-  formatStatusLabel,
-  formatSubscriptionDateTime,
-} from "@/lib/utils";
 
 const SafeAreaView = styled(RNSafeAreaView);
 
@@ -55,106 +52,107 @@ const Settings = () => {
     ]);
   };
 
-  console.log(user.created_at)
-
   return (
     <SafeAreaView className="flex-1 bg-background p-5">
-      <FlatList 
+      <FlatList
         ListHeaderComponent={() => (
           <>
             <View style={styles.container}>
-            <View style={styles.header}>
-              <Text style={styles.title}>Settings</Text>
-            </View>
+              <View style={styles.header}>
+                <Text style={styles.title}>Settings</Text>
+              </View>
 
-            {/* User Info Section */}
-            {user && (
-              <View style={styles.section}>
-                <View style={styles.sectionHeader}>
-                  <Text style={styles.sectionTitle}>Account</Text>
-                </View>
-                <View style={styles.userCard}>
-                  <View style={styles.userInfo}>
-                    <View style={styles.avatar}>
-                      {user.imageUrl ? (
-                        <Image style={styles.avatar}
-                          source={
-                            user?.imageUrl ? { uri: user.imageUrl } : images.avatar
-                          }
-                        />
-                      ) : (
-                        <Ionicons name="person" size={24} color={colors.accent} />
-                      )}
-                    </View>
-                    <View style={styles.userDetails}>
-                      <Text style={styles.userName}>
-                        {user.firstName && user.lastName
-                          ? `${user.firstName} ${user.lastName}`
-                          : user.primaryEmailAddress?.emailAddress || "User"}
-                      </Text>
-                      <Text style={styles.userEmail}>
-                        {user.primaryEmailAddress?.emailAddress}
-                      </Text>
-                      <Text style={styles.userEmail}>
-                        {`Updated at: ${formatSubscriptionDateTime(user.createdAt)}`}
-                      </Text>
+              {/* User Info Section */}
+              {user && (
+                <View style={styles.section}>
+                  <View style={styles.sectionHeader}>
+                    <Text style={styles.sectionTitle}>Account</Text>
+                  </View>
+                  <View style={styles.userCard}>
+                    <View style={styles.userInfo}>
+                      <View style={styles.avatar}>
+                        {user.imageUrl ? (
+                          <Image
+                            style={styles.avatar}
+                            source={
+                              user?.imageUrl
+                                ? { uri: user.imageUrl }
+                                : images.avatar
+                            }
+                          />
+                        ) : (
+                          <Ionicons
+                            name="person"
+                            size={24}
+                            color={colors.accent}
+                          />
+                        )}
+                      </View>
+                      <View style={styles.userDetails}>
+                        <Text style={styles.userName}>
+                          {user.firstName && user.lastName
+                            ? `${user.firstName} ${user.lastName}`
+                            : user.primaryEmailAddress?.emailAddress || "User"}
+                        </Text>
+                        <Text style={styles.userEmail}>
+                          {user.primaryEmailAddress?.emailAddress}
+                        </Text>
+                        <Text style={styles.userEmail}>
+                          {`Updated at: ${formatSubscriptionDateTime(
+                            user.createdAt?.toISOString(),
+                          )}`}
+                        </Text>
+                      </View>
                     </View>
                   </View>
                 </View>
-              </View>
-            )}
+              )}
 
-            {/* Settings Options */}
-            <View style={styles.section}>
-              <View style={styles.sectionHeader}>
-                <Text style={styles.sectionTitle}>App</Text>
-              </View>
-              <View style={styles.settingItem}>
-                <View style={styles.settingLabel}>
-                  <Ionicons
-                    name="information-circle"
-                    size={20}
-                    color={colors.accent}
-                  />
-                  <Text style={styles.settingText}>App Version</Text>
+              {/* Settings Options */}
+              <View style={styles.section}>
+                <View style={styles.sectionHeader}>
+                  <Text style={styles.sectionTitle}>App</Text>
                 </View>
-                <Text style={styles.settingValue}>1.0.0</Text>
+                <View style={styles.settingItem}>
+                  <View style={styles.settingLabel}>
+                    <Ionicons
+                      name="information-circle"
+                      size={20}
+                      color={colors.accent}
+                    />
+                    <Text style={styles.settingText}>App Version</Text>
+                  </View>
+                  <Text style={styles.settingValue}>1.0.0</Text>
+                </View>
+              </View>
+
+              {/* Sign Out Section */}
+              <View style={styles.signOutSection}>
+                <TouchableOpacity
+                  style={[
+                    styles.signOutButton,
+                    signOutLoading && styles.signOutButtonDisabled,
+                  ]}
+                  onPress={handleSignOut}
+                  disabled={signOutLoading}
+                  accessible
+                  accessibilityRole="button"
+                  accessibilityLabel="Sign out button"
+                >
+                  {signOutLoading ? (
+                    <ActivityIndicator color="#fff" size="small" />
+                  ) : (
+                    <>
+                      <Ionicons name="log-out" size={18} color="#fff" />
+                      <Text style={styles.signOutText}>Sign out</Text>
+                    </>
+                  )}
+                </TouchableOpacity>
               </View>
             </View>
-
-            {/* Sign Out Section */}
-            <View style={styles.signOutSection}>
-              <TouchableOpacity
-                style={[
-                  styles.signOutButton,
-                  signOutLoading && styles.signOutButtonDisabled,
-                ]}
-                onPress={handleSignOut}
-                disabled={signOutLoading}
-                accessible
-                accessibilityRole="button"
-                accessibilityLabel="Sign out button"
-              >
-                {signOutLoading ? (
-                  <ActivityIndicator color="#fff" size="small" />
-                ) : (
-                  <>
-                    <Ionicons name="log-out" size={18} color="#fff" />
-                    <Text style={styles.signOutText}>Sign out</Text>
-                  </>
-                )}
-              </TouchableOpacity>
-            </View>
-          </View>
-          
-          
-          
-          
-          </>  
-        
+          </>
         )}
       />
-      
     </SafeAreaView>
   );
 };
