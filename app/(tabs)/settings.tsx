@@ -125,33 +125,34 @@ const Settings = () => {
                   <Text style={styles.settingValue}>1.0.0</Text>
                 </View>
               </View>
-
-              {/* Sign Out Section */}
-              <View style={styles.signOutSection}>
-                <TouchableOpacity
-                  style={[
-                    styles.signOutButton,
-                    signOutLoading && styles.signOutButtonDisabled,
-                  ]}
-                  onPress={handleSignOut}
-                  disabled={signOutLoading}
-                  accessible
-                  accessibilityRole="button"
-                  accessibilityLabel="Sign out button"
-                >
-                  {signOutLoading ? (
-                    <ActivityIndicator color="#fff" size="small" />
-                  ) : (
-                    <>
-                      <Ionicons name="log-out" size={18} color="#fff" />
-                      <Text style={styles.signOutText}>Sign out</Text>
-                    </>
-                  )}
-                </TouchableOpacity>
-              </View>
             </View>
           </>
         )}
+        ListFooterComponent={() => (
+          /* Sign Out Section */
+          <View style={styles.signOutSection}>
+            <TouchableOpacity
+              style={[
+                styles.signOutButton,
+                signOutLoading && styles.signOutButtonDisabled,
+              ]}
+              onPress={handleSignOut}
+              disabled={signOutLoading}
+              accessible
+              accessibilityRole="button"
+              accessibilityLabel="Sign out button"
+            >
+              {signOutLoading ? (
+                <ActivityIndicator color="#fff" size="small" />
+              ) : (
+                <>
+                  <Ionicons name="log-out" size={18} color="#fff" />
+                  <Text style={styles.signOutText}>Sign out</Text>
+                </>
+              )}
+            </TouchableOpacity>
+          </View>
+        )} // Add some padding at the bottom
       />
     </SafeAreaView>
   );
