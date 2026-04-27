@@ -7,7 +7,7 @@ import clsx from "clsx";
 import React from "react";
 import { Image, Pressable, Text, View } from "react-native";
 
-const subscriptionCard = ({
+const SubscriptionCard = ({
   name,
   price,
   currency,
@@ -124,4 +124,4 @@ const subscriptionCard = ({
   );
 };
 
-export default subscriptionCard;
+export default SubscriptionCard;

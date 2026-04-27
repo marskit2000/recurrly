@@ -2,7 +2,13 @@ import { formatCurrency } from "@/lib/utils";
 import React from "react";
 import { Image, Text, View } from "react-native";
 
-const UpcomingSubcriptionCard = ({ name, price, daysLeft, icon, currency }: UpcomingSubscription) => {
+const UpcomingSubscriptionCard = ({
+  name,
+  price,
+  daysLeft,
+  icon,
+  currency,
+}: UpcomingSubscription) => {
   return (
     <View className="upcoming-card">
       <View className="upcoming-row">
@@ -24,4 +30,4 @@ const UpcomingSubcriptionCard = ({ name, price, daysLeft, icon, currency }: Upco
   );
 };
 
-export default UpcomingSubcriptionCard;
+export default UpcomingSubscriptionCard;
