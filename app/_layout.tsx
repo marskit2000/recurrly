@@ -17,6 +17,18 @@ if (!publishableKey) {
 
 console.log("[Clerk] Publishable Key loaded:", publishableKey ? "✓" : "✗");
 
+const posthogEnabled =
+  !!process.env.EXPO_PUBLIC_POSTHOG_API_KEY &&
+  !!process.env.EXPO_PUBLIC_POSTHOG_HOST;
+
+if (posthogEnabled) {
+  console.log("[PostHog] API Key and Host loaded:", "✓");
+} else {
+  console.warn(
+    "[PostHog] Missing API Key or Host in .env file. PostHog analytics will be disabled.",
+  );
+}
+
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
     "sans-light": require("../assets/fonts/PlusJakartaSans-Light.ttf"),
@@ -45,8 +57,7 @@ export default function RootLayout() {
   return (
     <SubscriptionsProvider>
       <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
-        {process.env.EXPO_PUBLIC_POSTHOG_API_KEY &&
-        process.env.EXPO_PUBLIC_POSTHOG_HOST ? (
+        {posthogEnabled ? (
           <PostHogProvider
             apiKey={process.env.EXPO_PUBLIC_POSTHOG_API_KEY}
             options={{ host: process.env.EXPO_PUBLIC_POSTHOG_HOST }}

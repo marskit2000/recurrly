@@ -55,6 +55,8 @@ const Settings = () => {
   return (
     <SafeAreaView className="flex-1 bg-background p-5">
       <FlatList
+        data={[]}
+        renderItem={null}
         ListHeaderComponent={() => (
           <>
             <View style={styles.container}>
