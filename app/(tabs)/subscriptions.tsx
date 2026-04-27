@@ -1,5 +1,5 @@
 import SubscriptionCard from "@/components/SubscriptionCard";
-import { HOME_SUBSCRIPTIONS } from "@/constants/data";
+import { useSubscriptions } from "@/context/SubscriptionsContext";
 import { styled } from "nativewind";
 import React, { useMemo, useState } from "react";
 import { FlatList, Text, TextInput, View } from "react-native";
@@ -8,14 +8,15 @@ import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
 const SafeAreaView = styled(RNSafeAreaView);
 
 const Subscriptions = () => {
+  const { subscriptions } = useSubscriptions();
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const filteredSubscriptions = useMemo(() => {
-    if (!searchQuery.trim()) return HOME_SUBSCRIPTIONS;
+    if (!searchQuery.trim()) return subscriptions;
 
     const query = searchQuery.toLowerCase();
-    return HOME_SUBSCRIPTIONS.filter((sub) => {
+    return subscriptions.filter((sub) => {
       const name = sub.name.toLowerCase();
       const category = sub.category?.toLowerCase() || "";
       const plan = sub.plan?.toLowerCase() || "";
@@ -24,7 +25,7 @@ const Subscriptions = () => {
         name.includes(query) || category.includes(query) || plan.includes(query)
       );
     });
-  }, [searchQuery]);
+  }, [searchQuery, subscriptions]);
 
   const handleCardPress = (id: string) => {
     setExpandedId(expandedId === id ? null : id);
