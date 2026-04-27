@@ -7,7 +7,7 @@ import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
 
 const SafeAreaView = styled(RNSafeAreaView);
 
-const subscriptions = () => {
+const Subscriptions = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
@@ -64,10 +64,10 @@ const subscriptions = () => {
           </View>
         )}
         contentContainerStyle={{ paddingBottom: 20 }}
-        scrollEnabled={false}
+        scrollEnabled
       />
     </SafeAreaView>
   );
 };
 
-export default subscriptions;
+export default Subscriptions;

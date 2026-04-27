@@ -42,13 +42,18 @@ export default function RootLayout() {
   }
 
   return (
-    <PostHogProvider
-      apiKey={process.env.EXPO_PUBLIC_POSTHOG_API_KEY!}
-      options={{ host: process.env.EXPO_PUBLIC_POSTHOG_HOST }}
-    >
-      <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
+    <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
+      {process.env.EXPO_PUBLIC_POSTHOG_API_KEY &&
+      process.env.EXPO_PUBLIC_POSTHOG_HOST ? (
+        <PostHogProvider
+          apiKey={process.env.EXPO_PUBLIC_POSTHOG_API_KEY}
+          options={{ host: process.env.EXPO_PUBLIC_POSTHOG_HOST }}
+        >
+          <Stack screenOptions={{ headerShown: false }} />
+        </PostHogProvider>
+      ) : (
         <Stack screenOptions={{ headerShown: false }} />
-      </ClerkProvider>
-    </PostHogProvider>
+      )}
+    </ClerkProvider>
   );
 }
