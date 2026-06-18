@@ -1,6 +1,7 @@
 import { icons } from "@/constants/icons";
 import clsx from "clsx";
 import dayjs from "dayjs";
+import { usePostHog } from "posthog-react-native";
 import React, { useState } from "react";
 import {
     KeyboardAvoidingView,
@@ -46,6 +47,7 @@ export default function CreateSubscriptionModal({
   onClose,
   onSubmit,
 }: CreateSubscriptionModalProps) {
+  const posthog = usePostHog();
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [frequency, setFrequency] = useState<"Monthly" | "Yearly">("Monthly");
@@ -103,6 +105,14 @@ export default function CreateSubscriptionModal({
     };
 
     onSubmit(newSubscription);
+
+    posthog.capture("subscription_created", {
+      name: newSubscription.name,
+      category: newSubscription.category || "Uncategorized",
+      price: newSubscription.price,
+      billing_frequency: newSubscription.billing,
+    });
+
     resetForm();
     onClose();
   };
